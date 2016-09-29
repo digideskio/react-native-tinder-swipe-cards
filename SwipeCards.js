@@ -315,8 +315,8 @@ SwipeCards.defaultProps = {
     nopeTextStyle: styles.nopeText,
     stack: true,
     stackDepth: 2,
-    stackOffsetX: 10,
-    stackOffsetY: 10,
+    stackOffsetX: 0,
+    stackOffsetY: 0,
     fadeOnSwipe: false,
 };
 
