@@ -104,7 +104,7 @@ class SwipeCards extends Component {
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
-        return gestureState.dx != 0 && gestureState.dy != 0;
+        return Math.abs(gestureState.dx) > 5;
       },
 
       onPanResponderGrant: (e, gestureState) => {
