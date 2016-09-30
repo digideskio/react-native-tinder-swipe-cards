@@ -95,15 +95,15 @@ class SwipeCards extends Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.cards && nextProps.cards.length > 0){
       this.setState({
-        card: nextProps.cards[0]
+        card: nextProps.cards[0],
+        currentCardIdx: 0,
       })
     }
   }
 
   componentWillMount() {
     this._panResponder = PanResponder.create({
-      onMoveShouldSetResponderCapture: () => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
         return Math.abs(gestureState.dx) > 5;
       },
 
@@ -136,8 +136,9 @@ class SwipeCards extends Component {
             ? this.props.cardRemoved(this.props.cards.indexOf(this.state.card))
             : null
 
+          let speedUp = 2.5;
           Animated.decay(this.state.pan, {
-            velocity: {x: velocity, y: vy},
+            velocity: {x: velocity * speedUp, y: vy},
             deceleration: 0.98
           }).start(this._resetState.bind(this))
         } else {
@@ -182,7 +183,7 @@ class SwipeCards extends Component {
     }
 
     return (
-      <Animated.View key={+new Date()} style={[this.props.cardStyle, animatedCardstyles]} {...this._panResponder.panHandlers}>
+      <Animated.View key={+new Date() + Math.random()} style={[this.props.cardStyle, animatedCardstyles, ]} {...this._panResponder.panHandlers}>
           {this.props.renderCard(card)}
       </Animated.View>
     )
@@ -190,7 +191,7 @@ class SwipeCards extends Component {
 
   renderStackCard(card, style) {
     return (
-      <Animated.View key={+new Date()} style={[this.props.cardStyle, style]}>
+      <Animated.View key={+new Date() + Math.random()} style={[this.props.cardStyle, style]}>
         {this.props.renderCard(card)}
       </Animated.View>
     )
@@ -300,7 +301,6 @@ SwipeCards.propTypes = {
     stackDepth: React.PropTypes.number,
     stackOffsetX: React.PropTypes.number,
     stackOffsetY: React.PropTypes.number,
-    StackAnimation: React.PropTypes.string,
     fadeOnSwipe: React.PropTypes.bool,
 };
 
